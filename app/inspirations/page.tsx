@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import Loading from './loading';
 import Subscription from '@/components/subscription';
 
-const fetcher = (...args: any) => fetch(...args).then(res => res.json());
+const fetcher = (url:string, options?: RequestInit) => fetch(url, options).then(res => res.json());
 
 const InspirationsPage = () => {
   return (
