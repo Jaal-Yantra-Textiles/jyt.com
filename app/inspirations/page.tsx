@@ -11,8 +11,9 @@ const fetcher = (url:string, options?: RequestInit) => fetch(url, options).then(
 const InspirationsPage = () => {
   return (
     <div className="mx-auto flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-2xl font-bold mb-4">Inspirations</h1>
-      <Suspense fallback={<div><Loading/></div>}>
+      <h1 className="text-2xl font-bold mb-4">Inspirations: Live </h1>
+      <h2 className="text-1xl font-bold mb-4">These are from our data store live inspirations that we are going to inspire from </h2>
+      <Suspense fallback={<Loading/>}>
         <InspirationsGrid />
       </Suspense>
     </div>
@@ -33,13 +34,14 @@ const InspirationsGrid = () => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {inspiration.images_for_inspiration.map((image: any) => (
             <div key={image.id} className="relative w-full h-64">
-              <Image
+              <Suspense fallback={<Loading/>}>
+                <Image
                 src={`https://directus-bucket-jy.s3.us-east-1.amazonaws.com/${image.directus_files_id.filename_disk}`}
                 alt={inspiration.inspiration_name}
-                layout="fill"
-                objectFit="cover"
-                className="rounded"
-              />
+                className="rounded fill cover"
+                fill
+                objectFit='cover'
+              /></Suspense>
             </div>
           ))}
         </div>
