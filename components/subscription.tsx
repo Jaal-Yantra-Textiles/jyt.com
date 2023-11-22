@@ -1,8 +1,41 @@
+"use client"
 import { CalendarDaysIcon, HandRaisedIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState } from 'react';
 
 export default function Subscription() {
+    const [hasSubscribed, setHasSubscribed] = useState(false);
+
+  useEffect(() => {
+    // Check if the user has already subscribed
+    const subscribed = localStorage.getItem('subscribed') === 'true';
+    setHasSubscribed(subscribed);
+  }, []);
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append('l', 'c648eee4-8c1b-4b80-b27d-f0e0218753c5'); // Append default list
+
+    try {
+      const response = await fetch('https://list.cynsar.foundation/subscription/form', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        localStorage.setItem('subscribed', 'true'); // Store subscription status in local storage
+        setHasSubscribed(true);
+        alert('Subscription successful!');
+      } else {
+        alert('There was an error with your subscription.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
   return (
-    <div className="relative isolate overflow-hidden bg-gray-900 py-16 sm:py-24 lg:py-32">
+    <div className="relative isolate rounded overflow-hidden bg-gray-900 py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
           <div className="max-w-xl lg:max-w-lg">
@@ -10,7 +43,8 @@ export default function Subscription() {
             <p className="mt-4 text-lg leading-8 text-gray-300">
             A New Wave in Fashion Are you tired of the fast fashion frenzy, the pollution, and inequality it promotes? So are we!
             </p>
-            <div className="mt-6 flex max-w-md gap-x-4">
+            <div onSubmit={handleSubmit} className="mt-6 flex max-w-md gap-x-4">
+            
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
@@ -25,10 +59,13 @@ export default function Subscription() {
               />
               <button
                 type="submit"
+                disabled={hasSubscribed}
                 className="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Subscribe
+                {hasSubscribed ? 'Subscribed' : 'Subscribe'}
+               
               </button>
+         
             </div>
           </div>
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
