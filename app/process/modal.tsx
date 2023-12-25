@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import Timeline from './timeline/page';
+import {  XMarkIcon } from '@heroicons/react/24/outline';
+
 
 // First it should fetch the data probably using the page behind and store activity like this 
 

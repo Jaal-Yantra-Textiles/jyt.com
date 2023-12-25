@@ -8,7 +8,7 @@ import { parseISO, format } from 'date-fns'
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import DesignDetailsModal from './modal';
-import { fetchDesigns, fetchIndividualDesignData } from '../services/api';
+import { fetchDesigns } from '../services/api';
 
 
 const MyQueryClient = new QueryClient();
@@ -47,7 +47,7 @@ function ProcessPageImpl() {
   const [selectedDesign, setSelectedDesign] = useState(null);
 
 
-  const openModal = (design) => {
+  const openModal = (design: any) => {
     setSelectedDesign(design);
     // fetch using useQuery()
     
